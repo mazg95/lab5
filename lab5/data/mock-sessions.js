@@ -90,7 +90,8 @@ module.exports = {
     },
     
     getSession: function (id){
-        return Sessions.find(x => {x.id == id});
+        console.log("GETTING ID:" + id);
+        return Sessions.find(x => x.id == id);
     },
     
     getSessions: function (){

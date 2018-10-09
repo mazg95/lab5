@@ -4,7 +4,7 @@ var db = require('../data/mock-sessions');
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
-  res.json({'message':'hola'});
+  res.json(db.getSessions()).end();
 });
 
 router.get('/:id', function(req, res, next){
@@ -15,8 +15,9 @@ router.get('/:id', function(req, res, next){
   }
   else{
     res.statusCode = 404;
-    res.end();
+    res.json({messageerr:`No se ha encontrado el recurso con ID: ${id}`});
   }
+  res.end();
 });
 
 router.post('/', function(req, res, next){
@@ -24,15 +25,17 @@ router.post('/', function(req, res, next){
   if(new_id>0){
     res.status(201).json({id:new_id});
   } else {
+    res.status(404).json({message:"Ha ocurrido un error."});
   }
+  res.end();
 });
 
 router.put('/:id', function(req, res, next){
   let id = req.params.id;
   if(db.updateSession(id, req.body)){
-    res.sendstatus(204);
+    res.status(204).json({message:`Se ha actualizado el recurso con ID: ${id}`});
   } else {
-    res.status(404);
+    res.status(404).json({message:`No se ha encontrado el recurso con ID: ${id}`});
   }
   res.end();
 });
@@ -40,9 +43,9 @@ router.put('/:id', function(req, res, next){
 router.delete('/:id', function(req,res, next){
   let id = req.params.id;
   if(db.deleteSession(id)){
-    res.status(204);
+    res.status(204).json({message:`Se ha eliminado el recurso con ID: ${id}`});
   } else {
-    res.status(404);
+    res.status(404).json({messageerr:`No se ha encontrado el recurso con ID: ${id}`});
   }
   res.end();
 });
