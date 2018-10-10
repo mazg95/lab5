@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var db = require('../data/mock-sessions');
+var db = require('../data/db');
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
@@ -21,6 +21,7 @@ router.get('/:id', function(req, res, next){
 });
 
 router.post('/', function(req, res, next){
+  console.log(req.body);
   let new_id = db.addSession(req.body);
   if(new_id>0){
     res.status(201).json({id:new_id});
