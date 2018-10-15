@@ -1,5 +1,5 @@
 var MongoClient = require('mongodb').MongoClient;
-var ObjectId = require('mongodb').ObjectId;
+var ObjectId = require('mongodb').ObjectID;
 let db;
 let collection;
 
@@ -20,30 +20,18 @@ module.exports = {
     
     deleteSession: function(id){
         console.log(`Eliminando Servicio: ${id}`);
-        let index = Sessions.findIndex(s => s.id == id);
-        if(index < 0){
-            return false;
-        }
-    
-        Sessions.splice(index, 1);
-        return true;
+        return collection.deleteOne({_id: ObjectId(id)});
     },
     
     
     updateSession: function (id, session){
         console.log(`Actualizando Servicio: ${id}`);
-        let index = Sessions.findIndex(s => s.id == id);
-        if(index < 0){
-            return false;
-        }
-    
-        Sessions.splice(index, 1, session);
-        return true;
+        return collection.updateOne({_id: ObjectId(id)}, session);
     },
     
     getSession: function (id){
         console.log("GETTING ID:" + id);
-        return collection.find({_id:ObjectId(id)}).toArray();
+        return collection.find({_id: ObjectId(id)}).toArray();
     },
     
     getSessions: function (){

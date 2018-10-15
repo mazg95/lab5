@@ -13,7 +13,7 @@ router.get('/:id', function(req, res, next){
   let id = req.params.id;
   db.getSession(id)
     .then(response => {
-      if(response.lenght > 0){
+      if(response){
         res.status(200).json(response)
       }
       else{
