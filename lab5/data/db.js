@@ -1,16 +1,21 @@
-var Sessions = require('./sessions').Sessions;
+var MongoClient = require('mongodb').MongoClient;
+var ObjectId = require('mongodb').ObjectId;
+let db;
+let collection;
+
+MongoClient.connect("mongodb://localhost:27017", {useNewUrlParser:true})
+  .then(client => {
+    db = client.db('gym');
+    collection = db.collection('trainning-sessions');
+  })
+  .catch(error => {
+    console.log(error);
+  });
 
 module.exports = {
     addSession: function (session){
         console.log(session);
-        if(Sessions.length){
-            session.id = Sessions[Sessions.length - 1].id + 1
-        }
-        else{
-            session.id = 1;
-        }
-        Sessions.push(session);
-        return session.id;
+        return collection.insertOne(session);
     }, 
     
     deleteSession: function(id){
@@ -38,10 +43,10 @@ module.exports = {
     
     getSession: function (id){
         console.log("GETTING ID:" + id);
-        return Sessions.find(x => x.id == id);
+        return collection.find({_id:ObjectId(id)}).toArray();
     },
     
     getSessions: function (){
-        return Sessions;
+        return collection.find({}).toArray();
     }
 }
