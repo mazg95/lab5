@@ -26,7 +26,7 @@ module.exports = {
     
     updateSession: function (id, session){
         console.log(`Actualizando Servicio: ${id}`);
-        return collection.updateOne({_id: ObjectId(id)}, session);
+        return collection.updateOne({_id: ObjectId(id)}, {$set:session});
     },
     
     getSession: function (id){
