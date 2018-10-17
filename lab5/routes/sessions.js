@@ -42,8 +42,7 @@ router.put('/:id', function(req, res, next){
   let id = req.params.id;
   db.updateSession(id, req.body)
     .then(response => {
-      console.log(response);
-      if(response.result.ok)
+      if(response.result.ok && response.result.n > 0)
         res.status(204).json({message:`Se ha actualizado el recurso con ID: ${id}`})
       else
         res.sendStatus(404);
