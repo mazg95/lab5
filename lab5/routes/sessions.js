@@ -10,7 +10,10 @@ client.on('error', (err) => {
   console.log("Error " + err);
 });
 
+//Campos permitidos
 let fields = ['date_done', 'duration', 'calories', 'fc', 'temperature']  
+
+//Funcion para validar el input (require_all es una flag para hacer todos los campos requeridos, o regrese false)
 function check_fields(vals, require_all){
     let validate = true;
     let new_vals = {};
