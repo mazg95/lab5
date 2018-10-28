@@ -10,21 +10,28 @@ client.on('error', (err) => {
   console.log("Error " + err);
 });
 
-//Campos permitidos
-let fields = ['date_done', 'duration', 'calories', 'fc', 'temperature']  
+const Joi = require('joi');
+const expressJoi = require('express-joi-validator');
 
-//Funcion para validar el input (require_all es una flag para hacer todos los campos requeridos, o regrese false)
-function check_fields(vals, require_all){
-    let validate = true;
-    let new_vals = {};
-    fields.forEach(field => {        
-        if(vals.hasOwnProperty(field))
-            new_vals[field] = vals[field];
-        else
-            validate = false;
-    });
-    return require_all && validate || !require_all ? new_vals : false;
+const schemaPost = {
+  body: {
+      date_done: Joi.string().required(),
+      duration: Joi.number().required(),
+      calories: Joi.number().required(),
+      fc: Joi.number().required(),
+      temperature: Joi.number().required()
+  }
+}
 
+const schemaPut = {
+  body: {
+    _id: Joi.string(),
+    date_done: Joi.string(),
+    duration: Joi.number(),
+    calories: Joi.number(),
+    fc: Joi.number(),
+    temperature: Joi.number()
+  }
 }
 
 /* GET users listing. */
@@ -70,10 +77,7 @@ router.get('/:id', function(req, res, next){
   });
 });
 
-router.post('/', function(req, res, next){
-  if(!check_fields(req.body, true)){
-    return res.status(400).send('No se especificaron todo los campos requeridos');
-  }
+router.post('/', expressJoi(schemaPost) ,function(req, res, next){
   db.addSession(req.body)
     .then(response=> {
       if(response.result.ok)
@@ -84,10 +88,9 @@ router.post('/', function(req, res, next){
     .catch(error => res.status(500).json(error));
 });
 
-router.put('/:id', function(req, res, next){
+router.put('/:id', expressJoi(schemaPut), function(req, res, next){
   let id = req.params.id;
   delete req.body._id
-  check_fields(req.body, false);
   db.updateSession(id, req.body)
     .then(response => {
       if(response.result.ok && response.result.n > 0)
