@@ -33,9 +33,13 @@ app.use(function (err, req, res, next) {
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
+  if (err.isBoom) {
+    res.status(err.output.statusCode).json(err.output.payload);
+  } else {
+    // render the error page
+    res.status(err.status || 500).json(err);
+  }
+  
 });
 
 module.exports = app;
