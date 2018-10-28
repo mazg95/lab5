@@ -11,20 +11,6 @@ MongoClient.connect("mongodb://localhost:27017", {useNewUrlParser:true})
   .catch(error => {
     console.log(error);
   });
-
-let fields = ['date_done', 'duration', 'calories', 'fc', 'temperature']  
-function check_fields(vals, require_all){
-    let validate = true;
-    let new_vals = {};
-    fields.forEach(field => {        
-        if(vals.hasOwnProperty(field))
-            new_vals[field] = vals[field];
-        else
-            validate = false;
-    });
-    return require_all && validate || !require_all ? new_vals : false;
-
-}
   
 module.exports = {
     addSession: function (session){
