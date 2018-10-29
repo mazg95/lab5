@@ -52,8 +52,17 @@ router.get('/', function(req, res, next) {
   });
 });
 
-router.get('/:id', function(req, res, next){
+function check_object_id(req, res, next){
   let id = req.params.id;
+  if(id.length != 12 && id.length != 24){
+    return res.sendStatus(404);
+  }
+  next();
+}
+
+router.get('/:id', check_object_id ,function(req, res, next){
+  let id = req.params.id;
+  
   client.get(`sessions/${id}`, (err, result) => {
     if(result){ //se encontro en la cache
         const resultJSON = JSON.parse(result);
@@ -88,27 +97,27 @@ router.post('/', expressJoi(schemaPost) ,function(req, res, next){
     .catch(error => res.status(500).json(error));
 });
 
-router.put('/:id', expressJoi(schemaPut), function(req, res, next){
+router.put('/:id', expressJoi(schemaPut), check_object_id ,function(req, res, next){
   let id = req.params.id;
   delete req.body._id
   db.updateSession(id, req.body)
     .then(response => {
       if(response.result.ok && response.result.n > 0)
-        res.status(204);
+        res.sendStatus(204);
       else
         res.sendStatus(404);
     })
     .catch(error => res.status(500).json(error));
 });
 
-router.delete('/:id', function(req,res, next){
+router.delete('/:id', check_object_id ,function(req,res, next){
   let id = req.params.id;
   db.deleteSession(id)
     .then(response => {
       if(response.result.ok && response.result.n > 0)
-        res.status(204);
+        res.sendStatus(204);
       else  
-      res.sendStatus(404);   
+        res.sendStatus(404);   
       })
     .catch(error => res.status(500).json(error));
 });
