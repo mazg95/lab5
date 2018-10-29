@@ -10,8 +10,11 @@ client.on('error', (err) => {
   console.log("Error " + err);
 });
 
-const Joi = require('joi');
+const { ObjectId } = require('bson');
+const JoiBase = require('joi');
 const expressJoi = require('express-joi-validator');
+const JoiObjectId = require('joi-mongodb-objectid');
+const Joi = JoiBase.extend(JoiObjectId)
 
 const schemaPost = {
   body: {
@@ -25,12 +28,18 @@ const schemaPost = {
 
 const schemaPut = {
   body: {
-    _id: Joi.string(),
+    _id: Joi.objectId().validate(ObjectId()),
     date_done: Joi.string(),
     duration: Joi.number(),
     calories: Joi.number(),
     fc: Joi.number(),
     temperature: Joi.number()
+  }
+}
+
+const schemaGet = {
+  params: {
+    id: Joi.objectId().validate(ObjectId())
   }
 }
 
@@ -52,9 +61,9 @@ router.get('/', function(req, res, next) {
   });
 });
 
-router.get('/:id', function(req, res, next){
+router.get('/:id', expressJoi(schemaGet) ,function(req, res, next){
   let id = req.params.id;
-  client.get(`session/${id}`, (err, result) => {
+  client.get(`sessions/${id}`, (err, result) => {
     if(result){ //se encontro en la cache
         const resultJSON = JSON.parse(result);
         res.status(200).json(resultJSON);
@@ -66,7 +75,7 @@ router.get('/:id', function(req, res, next){
             res.status(200).json(response); 
           }
           else{
-            res.status(404).json({messageerr:`No se ha encontrado el recurso con ID: ${id}`});        
+            res.sendStatus(404);   
           }
         })
         .catch(error => {
@@ -80,7 +89,7 @@ router.get('/:id', function(req, res, next){
 router.post('/', expressJoi(schemaPost) ,function(req, res, next){
   db.addSession(req.body)
     .then(response=> {
-      if(response.result.ok)
+      if(response.result.ok && response.result.n > 0)
         res.status(201).json(response);
       else
         res.sendStatus(404);
@@ -94,7 +103,7 @@ router.put('/:id', expressJoi(schemaPut), function(req, res, next){
   db.updateSession(id, req.body)
     .then(response => {
       if(response.result.ok && response.result.n > 0)
-        res.status(204).json({message:`Se ha actualizado el recurso con ID: ${id}`})
+        res.status(204);
       else
         res.sendStatus(404);
     })
@@ -106,9 +115,9 @@ router.delete('/:id', function(req,res, next){
   db.deleteSession(id)
     .then(response => {
       if(response.result.ok && response.result.n > 0)
-        res.status(204).json({message:`Se ha eliminado el recurso con ID: ${id}`})
+        res.status(204);
       else  
-        res.status(404).json({messageerr:`No se ha encontrado el recurso con ID: ${id}`})
+      res.sendStatus(404);   
       })
     .catch(error => res.status(500).json(error));
 });
