@@ -10,11 +10,8 @@ client.on('error', (err) => {
   console.log("Error " + err);
 });
 
-const { ObjectId } = require('bson');
-const JoiBase = require('joi');
+const Joi = require('joi');
 const expressJoi = require('express-joi-validator');
-const JoiObjectId = require('joi-mongodb-objectid');
-const Joi = JoiBase.extend(JoiObjectId)
 
 const schemaPost = {
   body: {
@@ -28,18 +25,12 @@ const schemaPost = {
 
 const schemaPut = {
   body: {
-    _id: Joi.objectId().validate(ObjectId()),
+    _id: Joi.string(),
     date_done: Joi.string(),
     duration: Joi.number(),
     calories: Joi.number(),
     fc: Joi.number(),
     temperature: Joi.number()
-  }
-}
-
-const schemaGet = {
-  params: {
-    id: Joi.objectId().validate(ObjectId())
   }
 }
 
@@ -61,7 +52,7 @@ router.get('/', function(req, res, next) {
   });
 });
 
-router.get('/:id', expressJoi(schemaGet) ,function(req, res, next){
+router.get('/:id', function(req, res, next){
   let id = req.params.id;
   client.get(`sessions/${id}`, (err, result) => {
     if(result){ //se encontro en la cache
