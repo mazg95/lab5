@@ -4,26 +4,26 @@
 
 
 # Imagen BASE
-FROM node
+FROM node:8
 
 # METADATA
 LABEL maintainer="mazg95@live.com"
 LABEL version="1.0"
 
 # Crear directorio de trabajo
-RUN mkdir -p /opt/app
-
 # Establece directorio de trabajo
-WORKDIR /opt/app
+WORKDIR /usr/src/app
 
-#Copia la aplicacion
-COPY /lab5 .
-
-RUN cd lab5
+COPY ./lab5/package*.json ./
 
 # Instala los paquetes existentes en el package.json
 # Dependencias de la app
-RUN npm install --quiet
+RUN npm install --quiet --only=production
+
+COPY ./lab5 .
+
+EXPOSE 8080
+
 
 # Instalar Nodemon para reiniciar el servidor al haber cambios.
 RUN npm install nodemon -g --quiet
@@ -31,4 +31,4 @@ RUN npm install nodemon -g --quiet
 
 EXPOSE 8000
 
-CMD nodemon -L --watch . app.js
+CMD nodemon -L --watch . ./lab5/app.js
