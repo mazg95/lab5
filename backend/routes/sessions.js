@@ -3,7 +3,7 @@ var router = express.Router();
 var db = require('../data/db');
 
 const redis = require('redis');
-const client = redis.createClient();
+const client = redis.createClient('6379', 'redis');
 
 // Print redis errors to the console
 client.on('error', (err) => {

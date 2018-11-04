@@ -14,13 +14,13 @@ LABEL version="1.0"
 # Establece directorio de trabajo
 WORKDIR /usr/src/app
 
-COPY ./lab5/package*.json ./
+COPY ./package*.json ./
 
 # Instala los paquetes existentes en el package.json
 # Dependencias de la app
 RUN npm install --quiet --only=production
 
-COPY ./lab5 .
+COPY . .
 
 EXPOSE 8080
 
@@ -31,4 +31,4 @@ RUN npm install nodemon -g --quiet
 
 EXPOSE 8000
 
-CMD nodemon -L --watch . ./lab5/app.js
+CMD nodemon -L --watch . ./app.js

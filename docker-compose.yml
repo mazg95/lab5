@@ -1,0 +1,29 @@
+###########################################################
+# docker-compose.yml - Aplicacion Health APP
+###########################################################
+
+version: '3.1'
+
+services: 
+  app:
+    image: 'health-app-client'
+    build: '.'
+    ports:
+          - 8000:80
+  api: 
+    image: 'health-app-server'
+    ports:
+        - 3000:3000
+    expose:
+        - "3000"
+    links:
+        - redis
+        - mongobase
+  redis:
+    image: 'redis'
+    ports:
+      - 6379:6379
+  mongobase:
+    image: 'mongo'
+    ports:
+      - 27017:27017
