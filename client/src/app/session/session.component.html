@@ -1,0 +1,16 @@
+<article class="col-xs-12 col-sm-12 col-md-6 col-lg-4">
+  <h3>Session / {{session.date_done}}</h3>
+  <div class="row session">
+    <h4 class="list-group-item-heading col-xs-8">Calories {{session.calories}} / FC: {{session.fc}}</h4>
+    <div class="tools col-xs-4">
+        <a routerLink="/detail/{{session._id}}">
+            <span class="glyphicon glyphicon-edit"></span>
+          </a>
+        <a>
+            <span class="glyphicon glyphicon-remove" (click)="deleteSession()"></span>
+        </a>
+    </div>
+    <p class="list-group-item-text col-xs-12">Date: {{session.date_done | date}} / Duration {{session.duration}}  </p>
+    <p class="col-xs-12">Temperature: {{session.temperature}}</p>
+  </div>
+</article>

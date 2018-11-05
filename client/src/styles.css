@@ -1,0 +1,24 @@
+/* You can add global styles to this file, and also import other style files */
+body {
+    margin: 0;
+    padding: 0;
+    background-image: url('./assets/imgs/background.jpg');
+    font-family: Raleway, Helvetica, Arial, sans-serif;
+    font-size: 1.8rem;
+    line-height: 160%;
+    font-weight: 300;
+}
+
+
+.flat-btn{
+    color: whitesmoke;
+    margin: 0 10px 0 0;
+    padding: 10px;
+    border: solid 2px whitesmoke;
+}
+
+.flat-btn:hover{
+    background-color: whitesmoke;
+    color: black;
+}
+

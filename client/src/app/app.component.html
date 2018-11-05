@@ -1,0 +1,22 @@
+<!--The content below is only a placeholder and can be replaced.-->
+<header>
+  <nav class="navbar navbar-inverse" role="navigation">
+    <div class="container-fluid nav-elements">
+        <div class="row">
+            <div class="col-xs-1 text-center" style="padding:0">
+                <a href="#home"><img class="img-responsive" style="width:50px" src="assets/imgs/logo.png" alt="Trainning Gym"></a>
+            </div><!-- branding -->
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#"> {{ title }}</a>
+              </div>
+            <ul class="nav navbar-nav">
+                <li><a routerLink="/metrics" >Metrics</a></li>
+                <li><a routerLink="/sessions" routerLinkActive>Trainnings</a></li>
+                <!--<li><a routerLink="/meals">Food</a></li>-->
+            </ul><!-- navbar -->
+
+        </div>
+    </div>
+  </nav>
+</header>
+<router-outlet></router-outlet>
