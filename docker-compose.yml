@@ -12,18 +12,18 @@ services:
           - 8000:80
   api: 
     image: 'health-app-server'
+    build: '.'
+    restart: always
     ports:
         - 3000:3000
-    expose:
-        - "3000"
     links:
         - redis
-        - mongobase
+        - mongo
   redis:
     image: 'redis'
     ports:
       - 6379:6379
-  mongobase:
+  mongo:
     image: 'mongo'
     ports:
       - 27017:27017

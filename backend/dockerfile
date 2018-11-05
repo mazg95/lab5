@@ -4,7 +4,7 @@
 
 
 # Imagen BASE
-FROM node:8
+FROM node
 
 # METADATA
 LABEL maintainer="mazg95@live.com"
@@ -22,13 +22,5 @@ RUN npm install --quiet --only=production
 
 COPY . .
 
-EXPOSE 8080
-
-
-# Instalar Nodemon para reiniciar el servidor al haber cambios.
-RUN npm install nodemon -g --quiet
-
-
-EXPOSE 8000
-
-CMD nodemon -L --watch . ./app.js
+EXPOSE 3000
+CMD ["npm", "start"]
