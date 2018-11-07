@@ -28,23 +28,19 @@ function check_fields(vals, require_all){
   
 module.exports = {
     addSession: function (session){
-        console.log(session);
         return collection.insertOne(session);
     }, 
     
     deleteSession: function(id){
-        console.log(`Eliminando Servicio: ${id}`);
         return collection.deleteOne({_id: ObjectId(id)});
     },
     
     
     updateSession: function (id, session){
-        console.log(`Actualizando Servicio: ${id}`);
         return collection.updateOne({_id: ObjectId(id)}, {$set:session});
     },
     
     getSession: function (id){
-        console.log("GETTING ID:" + id);
         return collection.find({_id: ObjectId(id)}).toArray();
     },
     
