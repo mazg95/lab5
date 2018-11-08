@@ -27,7 +27,6 @@ router.get('/:id', function(req, res, next){
 });
 
 router.post('/', function(req, res, next){
-  console.log(req.body);
   db.addSession(req.body)
     .then(response=> {
       if(response.result.ok)
