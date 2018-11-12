@@ -1,0 +1,32 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose -f docker-compose.yml convert
+    kompose.version: 1.17.0 (a74acad)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: api
+  name: api
+spec:
+  replicas: 1
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        io.kompose.service: api
+    spec:
+      containers:
+      - image: gcr.io/healthappproj/health-app-server
+        name: api
+        ports:
+        - containerPort: 3000
+      
+        #livenessProbe:
+        #  httpGet:
+        #    path: /
+        #    port: 3000
+        resources: {}
+      restartPolicy: Always
+status: {}

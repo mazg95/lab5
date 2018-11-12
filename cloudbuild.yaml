@@ -1,0 +1,32 @@
+steps:
+- name: 'gcr.io/vernal-tiger-222122/kubectl'
+  args:
+  - set
+  - image
+  - deployment
+  - redis
+  - redis
+- name: 'gcr.io/vernal-tiger-222122/kubectl'
+  args:
+  - set
+  - image
+  - deployment
+  - mongo
+  - web=gcr.io/vernal-tiger-222122/mongo
+- name: 'gcr.io/vernal-tiger-222122/kubectl'
+  args:
+  - set
+  - image
+  - deployment
+  - health-app-client
+  - web=gcr.io/vernal-tiger-222122/health-app-client
+- name: 'gcr.io/vernal-tiger-222122/kubectl'
+  args:
+  - set
+  - image
+  - deployment
+  - health-app-client
+  - web=gcr.io/vernal-tiger-222122/health-app-client
+  env:
+  - 'CLOUDSDK_COMPUTE_ZONE=us-west1-a'
+  - 'CLOUDSDK_CONTAINER_CLUSTER=health-app-cluster'

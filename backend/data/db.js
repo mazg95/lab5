@@ -3,7 +3,7 @@ var ObjectId = require('mongodb').ObjectID;
 let db;
 let collection;
 
-MongoClient.connect("mongodb://mongo:27017", {useNewUrlParser:true})
+MongoClient.connect("mongodb://localhost:27017", {useNewUrlParser:true})
   .then(client => {
     db = client.db('gym');
     collection = db.collection('trainning-sessions');
