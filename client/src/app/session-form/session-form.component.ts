@@ -36,7 +36,10 @@ export class SessionFormComponent implements OnInit {
       .then(res=>res.json())
       .then(s => {self.session = s[0];
       })
-      .catch(error => console.error(error));
+      .catch(error => {
+        alert("No se ha encontrado la session.");
+        console.error(error);
+      });
     }
   }
 
@@ -45,17 +48,16 @@ export class SessionFormComponent implements OnInit {
     if(this.isNew){
       this.sessionService.newSession(this.session)
       .then(res => {
-        if(res.status === 201)
-          return {statusCode:201}
-        else
-          return res.json()
-      })
-      .then(res => {
-        if(res.statusCode === 201){
+        if(res.status === 201){
           self.goBack();
         }
         else {
-          alert(JSON.stringify(res.message));          
+          if(res.status === 400){
+            alert("Revisa los campos ingresados.");                      
+          }
+          else{
+            alert("Lo siento ha ocurrido un error :(");
+          }
         }
       })
       .catch(error => console.log(error))
@@ -63,16 +65,16 @@ export class SessionFormComponent implements OnInit {
     else {
       this.sessionService.saveSession(this.session)
       .then(res => {
-        if(res.status === 204)
-          return {statusCode:204}
-        else
-          return res.json()
-      })
-      .then(res => {
-        if(res.statusCode === 204){
+        if(res.status === 204){
           self.goBack();
-        } else {
-          alert(JSON.stringify(res.message));          
+        }
+        else {
+          if(res.status === 400){
+            alert("Revisa los campos ingresados.");                      
+          }
+          else{
+            alert("Lo siento ha ocurrido un error :(");
+          }
         }
       })
       .catch(error => console.error(error))
