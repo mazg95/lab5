@@ -2,5 +2,5 @@ steps:
 - name: 'gcr.io/cloud-builders/kubectl'
   args: ['create', '-R', '-f','./dockertests/unit-tests/kubernetes']
   env:
-  - 'CLOUDSDK_COMPUTE_ZONE=us-west1-a'
+  - 'CLOUDSDK_COMPUTE_ZONE=us-west1-b'
   - 'CLOUDSDK_CONTAINER_CLUSTER=health-app-cluster'

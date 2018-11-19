@@ -19,7 +19,7 @@ spec:
 status:
   loadBalancer: {}
 
--------------------------------------------------
+---
 
 apiVersion: v1
 kind: Service
@@ -36,9 +36,7 @@ spec:
     io.kompose.service: redis
 status:
   loadBalancer: {}
-
------------------------------------------------------
-
+---
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
@@ -66,9 +64,7 @@ spec:
         resources: {}
       restartPolicy: Always
 status: {}
-
-------------------------------------------
-
+---
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
@@ -92,9 +88,7 @@ spec:
         resources: {}
       restartPolicy: Always
 status: {}
-
------------------------------------------
-
+---
 apiVersion: v1
 kind: Service
 metadata:
@@ -114,10 +108,7 @@ spec:
     io.kompose.service: api
 status:
   loadBalancer: {}
-
-
-------------------------------------------
-
+---
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
@@ -145,8 +136,7 @@ spec:
         resources: {}
       restartPolicy: Always
 status: {}
-
-----------------------------------------------------
+---
 apiVersion: v1
 kind: Service
 metadata:
@@ -166,9 +156,7 @@ spec:
   type: LoadBalancer
 status:
   loadBalancer: {}
-
-----------------------------------------------------
-
+---
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
