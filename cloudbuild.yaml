@@ -1,5 +1,5 @@
 steps:
-- name: 'gcr.io/cloud-builders/ng'
+- name: 'gcr.io/$PROJECT_ID/ng'
   args: ['build', './client' ,'--prod']
 - name: 'gcr.io/cloud-builders/docker'
   args: [ 'build', '-t', 'gcr.io/$PROJECT_ID/health-app-client', './client' ]
