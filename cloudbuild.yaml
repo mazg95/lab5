@@ -2,11 +2,13 @@ steps:
 - name: 'gcr.io/cloud-builders/gcloud'
   args: ['container', 'clusters', 'create', 'health-app-cluster']
   env:
-  - 'CLOUDSDK_COMPUTE_ZONE=us-west1-b'
+  - 'CLOUDSDK_COMPUTE_ZONE=us-west2-b'
 - name: 'gcr.io/cloud-builders/gcloud'
   args: ['container', 'clusters', 'get-credentials', 'health-app-cluster']
-- name: 'gcr.io/cloud-builders/kubectl'
-  args: ['create', '-R', '-f','./cloudbuild.yaml']
   env:
-  - 'CLOUDSDK_COMPUTE_ZONE=us-west1-b'
+  - 'CLOUDSDK_COMPUTE_ZONE=us-west2-b'
+- name: 'gcr.io/cloud-builders/kubectl'
+  args: ['create', '-R', '-f','./deployment.yaml']
+  env:
+  - 'CLOUDSDK_COMPUTE_ZONE=us-west2-b'
   - 'CLOUDSDK_CONTAINER_CLUSTER=health-app-cluster'
